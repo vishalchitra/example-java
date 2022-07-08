@@ -2,12 +2,11 @@ package org.jacoco.examples.maven.java;
 
 public class HelloWorld {
 
-	public String getMessage(boolean bigger) {
-		if (bigger) {
-			return "Hello again!";
-		} else {
-			return "Hello World!";
-		}
-	}
+	public static final String GREETING = "Hello World!";
+    
+    public static void main( String[] args )
+    {
+        System.out.println(GREETING);
+    }
 
 }
