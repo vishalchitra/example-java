@@ -13,13 +13,6 @@
         <module>module1</module>
     </modules>
 
-    <properties>
-        <skip.unit.tests>false</skip.unit.tests>
-        <skip.integration.tests>true</skip.integration.tests>
-        <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
-        <my.project.version>1.0-SNAPSHOT</my.project.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -36,149 +29,25 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-        </profile>
-        <!-- Integration test only -->
-        <profile>
-            <id>integration-test</id>
-            <properties>
-                <skip.integration.tests>false</skip.integration.tests>
-                <skip.unit.tests>true</skip.unit.tests>
-            </properties>
-        </profile>
-        <!-- Unit and Integration tests combined -->
-        <profile>
-            <id>test-all</id>
-            <properties>
-                <skip.integration.tests>false</skip.integration.tests>
-                <skip.unit.tests>false</skip.unit.tests>
-            </properties>
-        </profile>
-
-    </profiles>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>nl.deholtmans</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>1.0-SNAPSHOT</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-        <plugins>
-            <!-- UNIT test 'mvn clean install' (optionally: -P dev) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <!-- When using '@Category( MyUnitTest.class)': MyUnitTest</groups>-->
-                    <skipTests>${skip.unit.tests}</skipTests>
-                    <excludes>
-                        <exclude>**/*IntegrationTest.java</exclude>
-                    </excludes>
-                    <!-- optional: works also when skipped -->
-                    <forkCount>1</forkCount>
-                </configuration>
-            </plugin>
-
-            <!-- INTEGRATION test via 'mvn clean install -P integration-test -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.18.1</version>
-                <executions>
-                    <execution>
-                        <id>integration-tests</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                        <configuration>
-                            <skipTests>${skip.integration.tests}</skipTests>
-                            <includes>
-                                <include>**/*IntegrationTest.java</include>
-                            </includes>
-                            <!-- When using '@Categrory('MyIntegrationtest'): <groups>MyIntegrationTest</groups>-->
-                            <reuseForks>true</reuseForks>
-                            <argLine>${itCoverageAgent}</argLine>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- FINDSBUGS - code quality -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.4</version>
-            </plugin>
-
-            <!-- JACOCO - code coverage -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.9</version>
-                <executions>
-                    <!-- METHOD 1 -->
-                        <!--<execution>-->
-                            <!--<id>prepare-agent</id>-->
-                            <!--<goals>-->
-                                <!--<goal>prepare-agent</goal>-->
-                            <!--</goals>-->
-                        <!--</execution>-->
-                        <!-- prepare agent for measuring unit tests -->
-
-                    <!-- METHOD 2 -->
-                    <execution>
-                        <id>prepare-unit-tests</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-
-                    <!-- prepare agent for measuring integration tests -->
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-			    <phase>pre-integration-test</phase>
-                    </execution>
-                </executions>
-            </plugin>
-		<plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>report-aggregate</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>merge-results</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>merge</goal>
-                        </goals>
-                        <configuration>
-                            <fileSets>
-                                <fileSet>
-                                    <directory>${basedir}/../</directory>
-                                    <includes>
-                                        <include>**/target/jacoco.exec</include>
-                                    </includes>
-                                </fileSet>
-                            </fileSets>
-                            <destFile>${basedir}/../target/aggregate.exec</destFile>
-                        </configuration>
-                    </execution>
-                </executions>
+        <plugin>
+		<groupId>org.jacoco</groupId>
+		<artifactId>jacoco-maven-plugin</artifactId>
+		<version>0.8.2</version>
+		<executions>
+			<execution>
+				<goals>
+					<goal>prepare-agent</goal>
+				</goals>
+			</execution>
+			<!-- attached to Maven test phase -->
+			<execution>
+				<id>report</id>
+				<phase>test</phase>
+				<goals>
+					<goal>report</goal>
+				</goals>
+			</execution>
+		</executions>
             </plugin>
         </plugins>
     </build>
