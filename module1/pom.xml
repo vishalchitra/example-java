@@ -21,8 +21,7 @@
 	<artifactId>module1</artifactId>
 	<packaging>jar</packaging>
 	<name>module1</name>
-
-	<name>JaCoCo Maven plug-in example for Java project</name>
+	
 	<url>http://www.eclemma.org/jacoco</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
