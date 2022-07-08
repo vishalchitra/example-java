@@ -30,7 +30,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
 	</profile>
-    </profiles>	    
+    </profiles>
+    <build>	
         <plugins>
 		<plugin>
 		<groupId>org.jacoco</groupId>
