@@ -1,22 +1,38 @@
 package org.jacoco.examples.maven.java;
 
-import static org.junit.Assert.*;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-import org.junit.Before;
-import org.junit.Test;
+/**
+ * Unit test for simple App.
+ */
+public class AppTest 
+    extends TestCase
+{
+    /**
+     * Create the test case
+     *
+     * @param testName name of the test case
+     */
+    public AppTest( String testName )
+    {
+        super( testName );
+    }
 
-public class HelloWorldTest {
+    /**
+     * @return the suite of tests being tested
+     */
+    public static Test suite()
+    {
+        return new TestSuite( AppTest.class );
+    }
 
-	private HelloWorld subject;
-
-	@Before
-	public void setup() {
-		subject = new HelloWorld();
-	}
-
-	@Test
-	public void testGetMessage() {
-		assertEquals("Hello World!", subject.getMessage(false));
-	}
-
+    /**
+     * Rigourous Test :-)
+     */
+    public void testApp()
+    {
+        assertTrue( true );
+    }
 }
